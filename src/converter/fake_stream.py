@@ -1,8 +1,26 @@
 from typing import Any, Dict, List, Tuple
 import json
+import time
 from src.converter.utils import extract_content_and_reasoning
 from log import log
 from src.converter.openai2gemini import _convert_usage_metadata
+
+
+# 进度条动画
+PROGRESS_BAR_FRAMES = [" >____ ", " _>___ ", " __>__ ", " ___>_ ", " ____> "]
+_progress_bar_index = 0
+_last_progress_bar_time = 0
+
+def _get_progress_bar_frame() -> str:
+    """获取并更新进度条的当前帧"""
+    global _progress_bar_index, _last_progress_bar_time
+    now = time.time()
+    # 每隔一小段时间更新一次，避免过于频繁
+    if now - _last_progress_bar_time > 0.2:
+        _progress_bar_index = (_progress_bar_index + 1) % len(PROGRESS_BAR_FRAMES)
+        _last_progress_bar_time = now
+    return PROGRESS_BAR_FRAMES[_progress_bar_index]
+
 
 def safe_get_nested(obj: Any, *keys: str, default: Any = None) -> Any:
     """安全获取嵌套字典值
@@ -153,7 +171,7 @@ def create_openai_heartbeat_chunk() -> Dict[str, Any]:
         "choices": [
             {
                 "index": 0,
-                "delta": {"role": "assistant", "content": ""},
+                "delta": {"role": "assistant", "content": _get_progress_bar_frame()},
                 "finish_reason": None,
             }
         ]
@@ -234,7 +252,7 @@ def create_gemini_heartbeat_chunk() -> Dict[str, Any]:
     Returns:
         心跳数据块
     """
-    chunk = _build_candidate([{"text": ""}])
+    chunk = _build_candidate([{"text": _get_progress_bar_frame()}])
     chunk["candidates"][0]["finishReason"] = None
     return chunk
 
@@ -349,7 +367,9 @@ def create_anthropic_heartbeat_chunk() -> Dict[str, Any]:
         心跳响应块字典
     """
     return {
-        "type": "ping"
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {"type": "text_delta", "text": _get_progress_bar_frame()}
     }
 
 
