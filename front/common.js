@@ -2256,7 +2256,6 @@ async function saveConfig() {
             resource_manager_api_url: getValue('resourceManagerApiUrl'),
             service_usage_api_url: getValue('serviceUsageApiUrl'),
             antigravity_api_url: getValue('antigravityApiUrl'),
-            antigravity_version: getValue('antigravityVersion'),
             auto_ban_enabled: getChecked('autoBanEnabled'),
             auto_ban_error_codes: getValue('autoBanErrorCodes').split(',')
                 .map(c => parseInt(c.trim())).filter(c => !isNaN(c)),
@@ -2269,6 +2268,12 @@ async function saveConfig() {
             antigravity_stream2nostream: getChecked('antigravityStream2nostream'),
             anti_truncation_max_attempts: getInt('antiTruncationMaxAttempts', 3)
         };
+
+        // 仅在用户输入了值的情况下才发送 antigravity_version
+        const antigravityVersionValue = getValue('antigravityVersion');
+        if (antigravityVersionValue) {
+            config.antigravity_version = antigravityVersionValue;
+        }
 
         const response = await fetch('./config/save', {
             method: 'POST',
