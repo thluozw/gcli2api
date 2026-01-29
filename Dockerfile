@@ -24,6 +24,9 @@ COPY requirements.txt .
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy the modified frontend file to break the cache
+COPY front/common.js front/common.js
+
 # Copy application code
 COPY . .
 
