@@ -1,4 +1,4 @@
-full_hash=e51747fe292f3242e7b03bd980c18a9ef0da6987
-short_hash=e51747f
-message=fix(ui): 修复 Antigravity Version 输入框无法显示默认值的问题
-date=2026-01-30 06:22:43 +0800
+full_hash=a5603242a568890fbb9d2f1ca972b9905157e447
+short_hash=a560324
+message=build(docker): 修复 Docker 构建缓存问题
+date=2026-01-30 06:32:23 +0800
