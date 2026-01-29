@@ -1374,6 +1374,8 @@ async def get_config(token: str = Depends(verify_panel_token)):
         for key, value in storage_config.items():
             if key not in env_locked_keys:
                 current_config[key] = value
+        
+        log.info(f"[/config/get] Sending config to frontend: {current_config}")
 
         return JSONResponse(content={"config": current_config, "env_locked": list(env_locked_keys)})
 
@@ -1389,6 +1391,7 @@ async def save_config(request: ConfigSaveRequest, token: str = Depends(verify_pa
         
         new_config = request.config
 
+        log.info(f"[/config/save] Received config from frontend: {new_config}")
         log.debug(f"收到的配置数据: {list(new_config.keys())}")
         log.debug(f"收到的password值: {new_config.get('password', 'NOT_FOUND')}")
 
