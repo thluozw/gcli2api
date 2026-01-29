@@ -1,3 +1,4 @@
+# Workflow to build and publish a Docker image
 name: Docker Image CI
 
 on:
