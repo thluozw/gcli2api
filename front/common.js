@@ -2266,14 +2266,9 @@ async function saveConfig() {
             compatibility_mode_enabled: getChecked('compatibilityModeEnabled'),
             return_thoughts_to_frontend: getChecked('returnThoughtsToFrontend'),
             antigravity_stream2nostream: getChecked('antigravityStream2nostream'),
-            anti_truncation_max_attempts: getInt('antiTruncationMaxAttempts', 3)
+            anti_truncation_max_attempts: getInt('antiTruncationMaxAttempts', 3),
+            antigravity_version: getValue('antigravityVersion'),
         };
-
-        // 仅在用户输入了值的情况下才发送 antigravity_version
-        const antigravityVersionValue = getValue('antigravityVersion');
-        if (antigravityVersionValue) {
-            config.antigravity_version = antigravityVersionValue;
-        }
 
         const response = await fetch('./config/save', {
             method: 'POST',
