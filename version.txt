@@ -1,4 +1,4 @@
-full_hash=39fcd099ed5cb10e5c62f2be746d14045df49ef6
-short_hash=39fcd09
-message=Merge branch 'master' of https://github.com/thluozw/gcli2api
-date=2026-01-30 05:09:52 +0800
+full_hash=1445725e49e5c065f934a416ce88b52e8e27b57b
+short_hash=1445725
+message=fix: Match progress bar update frequency to heartbeat
+date=2026-01-30 05:21:12 +0800
