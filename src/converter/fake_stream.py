@@ -1,6 +1,5 @@
 from typing import Any, Dict, List, Tuple
 import json
-import time
 from src.converter.utils import extract_content_and_reasoning
 from log import log
 from src.converter.openai2gemini import _convert_usage_metadata
@@ -9,16 +8,11 @@ from src.converter.openai2gemini import _convert_usage_metadata
 # 进度条动画
 PROGRESS_BAR_FRAMES = [" >____ ", " _>___ ", " __>__ ", " ___>_ ", " ____> "]
 _progress_bar_index = 0
-_last_progress_bar_time = 0
 
 def _get_progress_bar_frame() -> str:
     """获取并更新进度条的当前帧"""
-    global _progress_bar_index, _last_progress_bar_time
-    now = time.time()
-    # 每隔一小段时间更新一次，避免过于频繁
-    if now - _last_progress_bar_time > 0.2:
-        _progress_bar_index = (_progress_bar_index + 1) % len(PROGRESS_BAR_FRAMES)
-        _last_progress_bar_time = now
+    global _progress_bar_index
+    _progress_bar_index = (_progress_bar_index + 1) % len(PROGRESS_BAR_FRAMES)
     return PROGRESS_BAR_FRAMES[_progress_bar_index]
 
 
