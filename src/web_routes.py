@@ -47,10 +47,14 @@ from .models import (
     ConfigSaveRequest,
 )
 from src.storage_adapter import get_storage_adapter
-from src.utils import verify_panel_token, GEMINICLI_USER_AGENT, ANTIGRAVITY_USER_AGENT
+from src.utils import verify_panel_token, GEMINICLI_USER_AGENT
 from src.api.antigravity import fetch_quota_info
 from src.google_oauth_api import Credentials, fetch_project_id
-from config import get_code_assist_endpoint, get_antigravity_api_url
+from config import (
+    get_code_assist_endpoint,
+    get_antigravity_api_url,
+    get_antigravity_user_agent,
+)
 
 # 创建路由器
 router = APIRouter()
@@ -1350,6 +1354,7 @@ async def get_config(token: str = Depends(verify_panel_token)):
 
         # Antigravity流式转非流式配置
         current_config["antigravity_stream2nostream"] = await config.get_antigravity_stream2nostream()
+        current_config["antigravity_version"] = await config.get_antigravity_version()
 
         # 服务器配置
         current_config["host"] = await config.get_server_host()
@@ -1736,7 +1741,7 @@ async def verify_credential_project_common(filename: str, mode: str = "geminicli
     # 获取API端点和对应的User-Agent
     if mode == "antigravity":
         api_base_url = await get_antigravity_api_url()
-        user_agent = ANTIGRAVITY_USER_AGENT
+        user_agent = await get_antigravity_user_agent()
     else:
         api_base_url = await get_code_assist_endpoint()
         user_agent = GEMINICLI_USER_AGENT

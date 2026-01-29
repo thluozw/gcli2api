@@ -14,7 +14,12 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from typing import Any, Dict, List, Optional
 from urllib.parse import parse_qs, urlparse
 
-from config import get_config_value, get_antigravity_api_url, get_code_assist_endpoint
+from config import (
+    get_config_value,
+    get_antigravity_api_url,
+    get_code_assist_endpoint,
+    get_antigravity_user_agent,
+)
 from log import log
 
 from .google_oauth_api import (
@@ -30,7 +35,6 @@ from .utils import (
     ANTIGRAVITY_CLIENT_ID,
     ANTIGRAVITY_CLIENT_SECRET,
     ANTIGRAVITY_SCOPES,
-    ANTIGRAVITY_USER_AGENT,
     CALLBACK_HOST,
     CLIENT_ID,
     CLIENT_SECRET,
@@ -679,8 +683,8 @@ async def asyncio_complete_auth_flow(
                     antigravity_url = await get_antigravity_api_url()
                     project_id = await fetch_project_id(
                         credentials.access_token,
-                        ANTIGRAVITY_USER_AGENT,
-                        antigravity_url
+                        await get_antigravity_user_agent(),
+                        antigravity_url,
                     )
                     if project_id:
                         log.info(f"成功从API获取project_id: {project_id}")
@@ -857,8 +861,8 @@ async def complete_auth_flow_from_callback_url(
                 antigravity_url = await get_antigravity_api_url()
                 project_id = await fetch_project_id(
                     credentials.access_token,
-                    ANTIGRAVITY_USER_AGENT,
-                    antigravity_url
+                    await get_antigravity_user_agent(),
+                    antigravity_url,
                 )
                 if project_id:
                     log.info(f"成功从API获取project_id: {project_id}")

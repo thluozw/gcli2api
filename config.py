@@ -439,3 +439,30 @@ async def get_antigravity_api_url() -> str:
             "ANTIGRAVITY_API_URL",
         )
     )
+
+
+async def get_antigravity_version() -> str:
+    """
+    Get Antigravity version setting.
+
+    用于构建 Antigravity API 请求的 User-Agent 的版本部分。
+
+    Environment variable: ANTIGRAVITY_VERSION
+    Database config key: antigravity_version
+    Default: "1.15.8"
+    """
+    return str(
+        await get_config_value(
+            "antigravity_version",
+            "1.15.8",
+            "ANTIGRAVITY_VERSION",
+        )
+    )
+
+
+async def get_antigravity_user_agent() -> str:
+    """
+    Build the full Antigravity User-Agent string.
+    """
+    version = await get_antigravity_version()
+    return f"antigravity/{version} windows/amd64"

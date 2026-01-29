@@ -14,13 +14,13 @@ from config import (
     get_antigravity_api_url,
     get_antigravity_stream2nostream,
     get_auto_ban_error_codes,
+    get_antigravity_user_agent,
 )
 from log import log
 
 from src.credential_manager import credential_manager
 from src.httpx_client import stream_post_async, post_async
 from src.models import Model, model_to_dict
-from src.utils import ANTIGRAVITY_USER_AGENT
 
 # 导入共同的基础功能
 from src.api.utils import (
@@ -39,7 +39,7 @@ from src.api.utils import (
 
 # ==================== 辅助函数 ====================
 
-def build_antigravity_headers(access_token: str, model_name: str = "") -> Dict[str, str]:
+async def build_antigravity_headers(access_token: str, model_name: str = "") -> Dict[str, str]:
     """
     构建 Antigravity API 请求头
 
@@ -51,7 +51,7 @@ def build_antigravity_headers(access_token: str, model_name: str = "") -> Dict[s
         请求头字典
     """
     headers = {
-        'User-Agent': ANTIGRAVITY_USER_AGENT,
+        'User-Agent': await get_antigravity_user_agent(),
         'Authorization': f'Bearer {access_token}',
         'Content-Type': 'application/json',
         'Accept-Encoding': 'gzip',
@@ -123,7 +123,7 @@ async def stream_request(
     antigravity_url = await get_antigravity_api_url()
     target_url = f"{antigravity_url}/v1internal:streamGenerateContent?alt=sse"
 
-    auth_headers = build_antigravity_headers(access_token, model_name)
+    auth_headers = await build_antigravity_headers(access_token, model_name)
 
     # 合并自定义headers
     if headers:
@@ -386,7 +386,7 @@ async def non_stream_request(
     antigravity_url = await get_antigravity_api_url()
     target_url = f"{antigravity_url}/v1internal:generateContent"
 
-    auth_headers = build_antigravity_headers(access_token, model_name)
+    auth_headers = await build_antigravity_headers(access_token, model_name)
 
     # 合并自定义headers
     if headers:
@@ -611,7 +611,7 @@ async def fetch_available_models() -> List[Dict[str, Any]]:
         return []
 
     # 构建请求头
-    headers = build_antigravity_headers(access_token)
+    headers = await build_antigravity_headers(access_token)
 
     try:
         # 使用 POST 请求获取模型列表
@@ -686,7 +686,7 @@ async def fetch_quota_info(access_token: str) -> Dict[str, Any]:
         }
     """
 
-    headers = build_antigravity_headers(access_token)
+    headers = await build_antigravity_headers(access_token)
 
     try:
         antigravity_url = await get_antigravity_api_url()
