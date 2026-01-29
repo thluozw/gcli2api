@@ -1,4 +1,4 @@
-full_hash=8fd3fa10d4aa356e4c3dcd4a4b54935fb604fc41
-short_hash=8fd3fa1
-message=Revert: Revert changes for fake progress bar
-date=2026-01-30 05:38:10 +0800
+full_hash=e51747fe292f3242e7b03bd980c18a9ef0da6987
+short_hash=e51747f
+message=fix(ui): 修复 Antigravity Version 输入框无法显示默认值的问题
+date=2026-01-30 06:22:43 +0800
