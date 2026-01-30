@@ -2267,7 +2267,7 @@ async function saveConfig() {
             return_thoughts_to_frontend: getChecked('returnThoughtsToFrontend'),
             antigravity_stream2nostream: getChecked('antigravityStream2nostream'),
             anti_truncation_max_attempts: getInt('antiTruncationMaxAttempts', 3),
-            antigravity_version: getValue('antigravityVersion', '1.15.8'),
+            antigravity_version: getValue('antigravityVersion'),
         };
 
         const response = await fetch('./config/save', {
