@@ -44,6 +44,7 @@ ENV_MAPPINGS = {
     "API_PASSWORD": "api_password",
     "PANEL_PASSWORD": "panel_password",
     "PASSWORD": "password",
+    "ANTIGRAVITY_VERSION": "antigravity_version",
 }
 
 
