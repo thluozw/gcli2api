@@ -2270,6 +2270,8 @@ async function saveConfig() {
             antigravity_version: getValue('antigravityVersion'),
         };
 
+        alert("即将保存的 Antigravity Version 是: '" + config.antigravity_version + "'");
+
         const response = await fetch('./config/save', {
             method: 'POST',
             headers: getAuthHeaders(),
