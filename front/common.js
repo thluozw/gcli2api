@@ -2256,7 +2256,6 @@ async function saveConfig() {
             resource_manager_api_url: getValue('resourceManagerApiUrl'),
             service_usage_api_url: getValue('serviceUsageApiUrl'),
             antigravity_api_url: getValue('antigravityApiUrl'),
-            antigravity_version: getValue('antigravityVersion'),
             auto_ban_enabled: getChecked('autoBanEnabled'),
             auto_ban_error_codes: getValue('autoBanErrorCodes').split(',')
                 .map(c => parseInt(c.trim())).filter(c => !isNaN(c)),
@@ -2267,7 +2266,8 @@ async function saveConfig() {
             compatibility_mode_enabled: getChecked('compatibilityModeEnabled'),
             return_thoughts_to_frontend: getChecked('returnThoughtsToFrontend'),
             antigravity_stream2nostream: getChecked('antigravityStream2nostream'),
-            anti_truncation_max_attempts: getInt('antiTruncationMaxAttempts', 3)
+            anti_truncation_max_attempts: getInt('antiTruncationMaxAttempts', 3),
+            antigravity_version: getValue('antigravityVersion'),
         };
 
         const response = await fetch('./config/save', {
